@@ -10,9 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Leesunho">
         <activity
-            android:name=".Add_Word"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog"
+            android:name=".Word_list_Recommend"
             android:exported="true" />
+        <activity
+            android:name=".Add_Word"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
         <activity
             android:name=".Word_list"
             android:exported="true" />

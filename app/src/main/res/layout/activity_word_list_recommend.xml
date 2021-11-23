@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="24dp"
+    android:weightSum="1">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"></Space>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_word"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.6"
+        android:dividerHeight="30dp"
+        android:divider="#ffffff"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"></androidx.recyclerview.widget.RecyclerView>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"></Space>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:gravity="center">
+        <Button
+            android:id="@+id/btn_add_recommendList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="내 단어장에 추가"
+            android:textSize="15dp"></Button>
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

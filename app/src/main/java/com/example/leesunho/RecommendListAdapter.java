@@ -37,8 +37,9 @@ public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdap
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION){
-                        Intent intent = new Intent(context, Word_list.class);
+                        Intent intent = new Intent(context, Word_list_Recommend.class);
                         intent.putExtra("title", mList.get(pos).getTitle());
+                        intent.putExtra("language", mList.get(pos).getLanguage());
 
                         context.startActivity(intent);
                     }

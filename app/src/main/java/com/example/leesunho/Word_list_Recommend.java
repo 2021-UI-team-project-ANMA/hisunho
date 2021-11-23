@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class Word_list extends AppCompatActivity {
+public class Word_list_Recommend extends AppCompatActivity {
 
     private ArrayList<Word> arrayList;
     private WordAdapter wordAdapter;
@@ -28,12 +28,12 @@ public class Word_list extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
-    private ImageButton btn_add_word;
+    private Button btn_add_recommendList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_word_list);
+        setContentView(R.layout.activity_word_list_recommend);
 
         recyclerView = findViewById(R.id.recyclerview_word);
         recyclerView.setHasFixedSize(true);
@@ -43,10 +43,11 @@ public class Word_list extends AppCompatActivity {
 
         Intent intent = getIntent();
         String selected = intent.getStringExtra("title");
+        String language = intent.getStringExtra("language");
 
         database = FirebaseDatabase.getInstance("https://leesunho-fed08-default-rtdb.firebaseio.com/"); //파이어베이스 데이터베이스 연동
         databaseReference = database.getReference(); //DB 테이블 연결
-        databaseReference.child("단어장").child("내 단어장").child(selected).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("단어장").child("추천 단어장").child(language).child(selected).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //파이어베이스 데이터베이스의 데이터를 받아오는 곳
@@ -61,7 +62,7 @@ public class Word_list extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 //에러 발생 시
-                Log.e("Word_list", String.valueOf(databaseError.toException())); //에러문 출력
+                Log.e("Word_list_recommend", String.valueOf(databaseError.toException())); //에러문 출력
 
             }
         });
@@ -74,14 +75,14 @@ public class Word_list extends AppCompatActivity {
         recyclerView.addItemDecoration(decoration_height);
 
         // 단어 추가 버튼
-        btn_add_word = (ImageButton) findViewById(R.id.btn_add_word);
-        btn_add_word.setOnClickListener(new View.OnClickListener() {
+        btn_add_recommendList= (Button) findViewById(R.id.btn_add_recommendList);
+        /*btn_add_recommendList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Add_Word.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
     }
 }
