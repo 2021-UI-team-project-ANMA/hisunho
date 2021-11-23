@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +30,8 @@ public class Word_list extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private ImageButton btn_add_word;
+    private Button btn_edit_word;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +82,8 @@ public class Word_list extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Add_Word.class);
+                intent.putExtra("selected",selected);
+                intent.putExtra("num",Integer.toString(arrayList.size()));
                 startActivity(intent);
             }
         });
