@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="350dp"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:weightSum="0.8">
+    
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.15"></Space>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="0.5">
+
+        <EditText
+            android:id="@+id/et_spelling"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:paddingLeft="12dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="@color/design_default_color_primary"
+            android:hint="추가할 단어를 입력해주세요"></EditText>
+
+        <EditText
+            android:id="@+id/et_meaning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:paddingLeft="12dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:backgroundTint="@color/design_default_color_primary"
+            android:hint="단어의 뜻을 입력해주세요"></EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.15"
+        android:weightSum="1"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:backgroundTint="#E2E2E2"
+            android:text="취소"
+            android:textSize="20dp"></Button>
+
+        <Button
+            android:id="@+id/btn_okay"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:backgroundTint="#E2E2E2"
+            android:textColor="@color/black"
+            android:text="추가"
+           android:textSize="20dp"></Button>
+
+
+    </LinearLayout>
+</LinearLayout>

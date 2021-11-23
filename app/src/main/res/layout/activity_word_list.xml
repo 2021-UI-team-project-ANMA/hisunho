@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="24dp"
+    android:weightSum="1">
+
+    <Button
+        android:id="@+id/btn_edit_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="편집"
+        android:layout_marginBottom="24dp"></Button>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_word"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.6"
+        android:dividerHeight="30dp"
+        android:divider="#ffffff"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"></androidx.recyclerview.widget.RecyclerView>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"></Space>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:gravity="right">
+        <ImageButton
+            android:id="@+id/btn_add_word"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/round_blue"
+            android:src="@drawable/add"></ImageButton>
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#E2E2E2">
+
+        <TextView
+            android:id="@+id/recyclerview_word_spelling"
+            android:layout_width="170dp"
+            android:layout_height="40dp"
+            android:textSize="25dp"
+            android:paddingLeft="12dp"
+            android:layout_marginRight="24dp"
+            android:gravity="left"
+            android:ellipsize="marquee"
+            android:text="단어출력부분"></TextView>
+
+        <TextView
+            android:id="@+id/recyclerview_word_meaning"
+            android:layout_alignParentRight="true"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:textSize="15dp"
+            android:gravity="right"
+            android:paddingRight="12dp"
+            android:ellipsize="marquee"
+            android:text="단어 뜻 부분"></TextView>
+    </RelativeLayout>
+</LinearLayout>

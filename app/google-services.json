@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "996767393001",
+    "project_id": "leesunho-fed08",
+    "storage_bucket": "leesunho-fed08.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996767393001:android:70a6376470a64e2fcafc78",
+        "android_client_info": {
+          "package_name": "com.example.leesunho"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "996767393001-lii2or4kha571far87145g25bbek5oks.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV5-V-gHwX0peQnt0MLs0G7h_rr9CzYpA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "996767393001-lii2or4kha571far87145g25bbek5oks.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
