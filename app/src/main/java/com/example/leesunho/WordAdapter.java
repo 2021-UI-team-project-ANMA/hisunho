@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WordAdapter extends RecyclerView.Adapter<WordAdapter.CustomViewHolder> {
     private ArrayList<Word> mList = null;

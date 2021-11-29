@@ -1,5 +1,10 @@
 package com.example.leesunho;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,6 +36,7 @@ public class Word_list extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private ImageButton btn_add_word;
     private Button btn_edit_word;
+    private ActivityResultLauncher<Intent> resultLauncher;
 
 
     @Override
@@ -76,6 +82,26 @@ public class Word_list extends AppCompatActivity {
         RecyclerDecoration_Height decoration_height = new RecyclerDecoration_Height(10);
         recyclerView.addItemDecoration(decoration_height);
 
+        //액티비티 콜백 함수
+        resultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if(result.getResultCode() == RESULT_OK){
+                            Intent intent = result.getData();
+                            String spelling = intent.getStringExtra("Spelling");
+                            String meaning = intent.getStringExtra("Meaning");
+
+                            Word word = new Word();
+                            word.setSpelling(spelling);
+                            word.setMeaning(meaning);
+                            arrayList.add(word);
+                            wordAdapter.notifyItemInserted(wordAdapter.getItemCount());
+                        }
+                    }
+                });
+
         // 단어 추가 버튼
         btn_add_word = (ImageButton) findViewById(R.id.btn_add_word);
         btn_add_word.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +110,7 @@ public class Word_list extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Add_Word.class);
                 intent.putExtra("selected",selected);
                 intent.putExtra("num",Integer.toString(arrayList.size()));
-                startActivity(intent);
+                resultLauncher.launch(intent);
             }
         });
 

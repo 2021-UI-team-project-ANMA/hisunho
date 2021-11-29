@@ -1,5 +1,6 @@
 package com.example.leesunho;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -66,6 +67,10 @@ public class Add_Word extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     Toast.makeText(getApplicationContext(), "단어가 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), Word_list.class);
+                                    intent.putExtra("Spelling",newWord.getSpelling());
+                                    intent.putExtra("Meaning",newWord.getMeaning());
+                                    setResult(RESULT_OK,intent);
                                     finish();
                                 }
                             })
