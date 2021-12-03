@@ -11,7 +11,8 @@
         android:theme="@style/Theme.Leesunho">
         <activity
             android:name=".Revise_word"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog"/>
         <activity
             android:name=".Word_list_Recommend"
             android:exported="true" />

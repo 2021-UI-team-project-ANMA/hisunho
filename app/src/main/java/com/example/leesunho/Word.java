@@ -1,6 +1,18 @@
 package com.example.leesunho;
 
 public class Word {
+    private String spelling;
+    private String meaning;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getSpelling() {
         return spelling;
     }
@@ -8,9 +20,6 @@ public class Word {
     public void setSpelling(String spelling) {
         this.spelling = spelling;
     }
-
-    private String spelling;
-    private String meaning;
 
     public String getMeaning() {
         return meaning;

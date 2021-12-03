@@ -40,9 +40,9 @@ public class Add_Word extends AppCompatActivity {
 
         Intent intent = getIntent();
         String selected = intent.getStringExtra("selected");
-        String num = intent.getStringExtra("num");
-        int temp = Integer.parseInt(num) + 1;
-        String key = Integer.toString(temp);
+        String last_id = intent.getStringExtra("last_id");
+        int temp = Integer.parseInt(last_id) + 1;
+        String id = Integer.toString(temp);
 
 
         database = FirebaseDatabase.getInstance("https://leesunho-fed08-default-rtdb.firebaseio.com/"); //파이어베이스 데이터베이스 연동
@@ -62,7 +62,7 @@ public class Add_Word extends AppCompatActivity {
                     newWord.setSpelling(getSpelling);
                     newWord.setMeaning(getMeaning);
 
-                    databaseReference.child("단어장").child("내 단어장").child(selected).child(key).setValue(newWord)
+                    databaseReference.child("단어장").child("내 단어장").child(selected).child(id).setValue(newWord)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
@@ -70,7 +70,7 @@ public class Add_Word extends AppCompatActivity {
                                     Intent intent = new Intent(getApplicationContext(), Word_list.class);
                                     intent.putExtra("Spelling",newWord.getSpelling());
                                     intent.putExtra("Meaning",newWord.getMeaning());
-                                    setResult(RESULT_OK,intent);
+                                    setResult(1,intent);
                                     finish();
                                 }
                             })

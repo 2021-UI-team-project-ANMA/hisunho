@@ -67,6 +67,7 @@ public class Word_list extends AppCompatActivity {
                 arrayList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){ //반복문으로 데이터 List를 추출
                     Word word = snapshot.getValue(Word.class); // 만들어둔 객체에 데이터를 담는다.
+                    word.setId(snapshot.getKey());
                     arrayList.add(word);
                 }
                 wordAdapter.notifyDataSetChanged(); //리스트 저장 및 새로고침
@@ -93,7 +94,7 @@ public class Word_list extends AppCompatActivity {
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
-                        if(result.getResultCode() == RESULT_OK){
+                        if(result.getResultCode() == 1){
                             Intent intent = result.getData();
                             String spelling = intent.getStringExtra("Spelling");
                             String meaning = intent.getStringExtra("Meaning");
@@ -104,6 +105,17 @@ public class Word_list extends AppCompatActivity {
                             arrayList.add(word);
                             wordAdapter.notifyItemInserted(wordAdapter.getItemCount());
                         }
+                        else if(result.getResultCode() == 2){
+                            System.out.println(result.getResultCode());
+                            Intent intent = result.getData();
+                            String spelling = intent.getStringExtra("Spelling");
+                            String meaning = intent.getStringExtra("Meaning");
+                            int position = intent.getIntExtra("position",0);
+
+                            arrayList.get(position).setSpelling(spelling);
+                            arrayList.get(position).setMeaning(meaning);
+                            word_edit_adapter.notifyItemChanged(position);
+                        }
                     }
                 });
 
@@ -112,9 +124,10 @@ public class Word_list extends AppCompatActivity {
         btn_add_word.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String last_id = arrayList.get(arrayList.size()-1).getId();
                 Intent intent = new Intent(getApplicationContext(), Add_Word.class);
                 intent.putExtra("selected",selected);
-                intent.putExtra("num",Integer.toString(arrayList.size()));
+                intent.putExtra("last_id", last_id);
                 resultLauncher.launch(intent);
             }
         });
@@ -124,7 +137,14 @@ public class Word_list extends AppCompatActivity {
         btn_edit_word.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerView.setAdapter(word_edit_adapter);
+                if(recyclerView.getAdapter() == wordAdapter){
+                    btn_edit_word.setText("완료");
+                    recyclerView.setAdapter(word_edit_adapter);
+                }
+                else{
+                    btn_edit_word.setText("편집");
+                    recyclerView.setAdapter(wordAdapter);
+                }
             }
         });
 
@@ -135,7 +155,9 @@ public class Word_list extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Revise_word.class);
                 intent.putExtra("Spelling", arrayList.get(position).getSpelling());
                 intent.putExtra("Meaning", arrayList.get(position).getMeaning());
+                intent.putExtra("id",arrayList.get(position).getId());
                 intent.putExtra("selected",selected);
+                intent.putExtra("position",position);
                 resultLauncher.launch(intent);
             }
 
@@ -160,14 +182,15 @@ public class Word_list extends AppCompatActivity {
                 });
                 builder.show();*/
 
-                delete(position+1);
+                delete(position);
                 arrayList.remove(position);
                 word_edit_adapter.notifyItemRemoved(position);
                 wordAdapter.notifyItemRemoved(position);
             }
             private void delete(int position){
-                String key = Integer.toString(position);
-                databaseReference.child("단어장").child("내 단어장").child(selected).child(key).setValue(null);
+                String id = arrayList.get(position).getId();
+                System.out.println(id);
+                databaseReference.child("단어장").child("내 단어장").child(selected).child(id).setValue(null);
             }
         });
     }
