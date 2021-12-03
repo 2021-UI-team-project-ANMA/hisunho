@@ -6,14 +6,18 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -30,6 +34,7 @@ public class Word_list extends AppCompatActivity {
 
     private ArrayList<Word> arrayList;
     private WordAdapter wordAdapter;
+    private Word_Edit_Adapter word_edit_adapter;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private FirebaseDatabase database;
@@ -114,5 +119,57 @@ public class Word_list extends AppCompatActivity {
             }
         });
 
+        // 편집 버튼
+        btn_edit_word = (Button)findViewById(R.id.btn_edit_word);
+        btn_edit_word.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.setAdapter(word_edit_adapter);
+            }
+        });
+
+        word_edit_adapter = new Word_Edit_Adapter(this, arrayList);
+        word_edit_adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onReviseClick(View v, int position) {
+                Intent intent = new Intent(getApplicationContext(), Revise_word.class);
+                intent.putExtra("Spelling", arrayList.get(position).getSpelling());
+                intent.putExtra("Meaning", arrayList.get(position).getMeaning());
+                intent.putExtra("selected",selected);
+                resultLauncher.launch(intent);
+            }
+
+            @Override
+            public void onDeleteClick(View v, int position) {
+                /*AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                builder.setTitle("삭제 확인");
+                builder.setMessage("삭제하시겠습니까?");
+
+                builder.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        delete(position+1);
+                    }
+                });
+
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                builder.show();*/
+
+                delete(position+1);
+                arrayList.remove(position);
+                word_edit_adapter.notifyItemRemoved(position);
+                wordAdapter.notifyItemRemoved(position);
+            }
+            private void delete(int position){
+                String key = Integer.toString(position);
+                databaseReference.child("단어장").child("내 단어장").child(selected).child(key).setValue(null);
+            }
+        });
     }
+
 }

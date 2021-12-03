@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Leesunho">
         <activity
+            android:name=".Revise_word"
+            android:exported="true" />
+        <activity
             android:name=".Word_list_Recommend"
             android:exported="true" />
         <activity

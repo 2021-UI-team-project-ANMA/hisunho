@@ -66,7 +66,7 @@ public class Add_Word extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
-                                    Toast.makeText(getApplicationContext(), "단어가 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Add_Word.this, "단어가 추가되었습니다.", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), Word_list.class);
                                     intent.putExtra("Spelling",newWord.getSpelling());
                                     intent.putExtra("Meaning",newWord.getMeaning());
@@ -77,7 +77,7 @@ public class Add_Word extends AppCompatActivity {
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(), "단어 추가에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Add_Word.this, "단어 추가에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                                 }
                             });
 
