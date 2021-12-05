@@ -6,12 +6,35 @@
     android:layout_margin="24dp"
     android:weightSum="1">
 
-    <Button
-        android:id="@+id/btn_edit_word"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="편집"
-        android:layout_marginBottom="24dp"></Button>
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_edit_word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="편집"
+            android:layout_marginBottom="24dp"></Button>
+
+        <Button
+            android:id="@+id/btn_hide_spelling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="단어 가리기"
+            android:layout_toLeftOf="@id/btn_hide_meaning"
+            android:layout_marginRight="6dp"
+            android:layout_marginBottom="24dp"></Button>
+
+        <Button
+            android:id="@+id/btn_hide_meaning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="뜻 가리기"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="24dp"></Button>
+
+
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_word"

@@ -41,7 +41,10 @@ public class Word_list extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private ImageButton btn_add_word;
     private Button btn_edit_word;
+    private Button btn_hide_spelling;
+    private Button btn_hide_meaning;
     private ActivityResultLauncher<Intent> resultLauncher;
+    private AlertDialog alertDialog; // 삭제 확인 다이얼로그
 
 
     @Override
@@ -54,6 +57,7 @@ public class Word_list extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         arrayList = new ArrayList<>(); //데이터베이스에서 불러온 객체를 담을 리스트
+
 
         Intent intent = getIntent();
         String selected = intent.getStringExtra("title");
@@ -139,14 +143,60 @@ public class Word_list extends AppCompatActivity {
             public void onClick(View v) {
                 if(recyclerView.getAdapter() == wordAdapter){
                     btn_edit_word.setText("완료");
+                    btn_hide_spelling.setVisibility(View.INVISIBLE);
+                    btn_hide_meaning.setVisibility(View.INVISIBLE);
                     recyclerView.setAdapter(word_edit_adapter);
                 }
                 else{
                     btn_edit_word.setText("편집");
+                    btn_hide_spelling.setVisibility(View.VISIBLE);
+                    btn_hide_meaning.setVisibility(View.VISIBLE);
                     recyclerView.setAdapter(wordAdapter);
+                }
+
+            }
+        });
+
+        //스펠링 가리기
+        btn_hide_spelling = findViewById(R.id.btn_hide_spelling);
+        btn_hide_spelling.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(wordAdapter.getHide_spelling() == 0){
+                    btn_hide_spelling.setText("단어 보이기");
+                    wordAdapter.setHide_spelling(1);
+                    wordAdapter.notifyDataSetChanged();
+                }
+                else{
+                    btn_hide_spelling.setText("단어 가리기");
+                    wordAdapter.setHide_spelling(0);
+                    wordAdapter.notifyDataSetChanged();
                 }
             }
         });
+
+        //뜻 가리기
+        btn_hide_meaning = findViewById(R.id.btn_hide_meaning);
+        btn_hide_meaning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(wordAdapter.getHide_meaning() == 0){
+                    btn_hide_meaning.setText("뜻 보이기");
+                    wordAdapter.setHide_meaning(1);
+                    wordAdapter.notifyDataSetChanged();
+                }
+                else{
+                    btn_hide_meaning.setText("뜻 가리기");
+                    wordAdapter.setHide_meaning(0);
+                    wordAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+
+
+
+        btn_hide_meaning = findViewById(R.id.btn_hide_meaning);
 
         word_edit_adapter = new Word_Edit_Adapter(this, arrayList);
         word_edit_adapter.setOnItemClickListener(new OnItemClickListener() {
@@ -163,29 +213,29 @@ public class Word_list extends AppCompatActivity {
 
             @Override
             public void onDeleteClick(View v, int position) {
-                /*AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+
+                DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(i == DialogInterface.BUTTON_POSITIVE){
+                            delete(position);
+                            arrayList.remove(position);
+                            word_edit_adapter.notifyItemRemoved(position);
+                            wordAdapter.notifyItemRemoved(position);
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Word_list.this);
+                builder.setIcon(R.drawable.ic_baseline_warning_24);
                 builder.setTitle("삭제 확인");
-                builder.setMessage("삭제하시겠습니까?");
+                builder.setMessage("정말 삭제하시겠습니까?");
 
-                builder.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        delete(position+1);
-                    }
-                });
+                builder.setPositiveButton("삭제", dialogListener);
+                builder.setNegativeButton("취소", null);
 
-                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                    }
-                });
-                builder.show();*/
-
-                delete(position);
-                arrayList.remove(position);
-                word_edit_adapter.notifyItemRemoved(position);
-                wordAdapter.notifyItemRemoved(position);
+                alertDialog = builder.create();
+                alertDialog = builder.show();
             }
             private void delete(int position){
                 String id = arrayList.get(position).getId();
