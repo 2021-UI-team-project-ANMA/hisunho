@@ -1,5 +1,9 @@
 package com.example.leesunho;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,6 +13,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TabHost;
@@ -26,7 +32,9 @@ public class Word_main extends AppCompatActivity {
 
     private ArrayList<RecommendList> arrayList;
     private ArrayList<MyWordList> arrayList2;
+    private ArrayList<RecommendList> tempList;
     private RecommendListAdapter recommendListAdapter;
+    private RecommendListAdapter temp_recommendListAdapter;
     private MyWordListAdapter myWordListAdapter;
     private RecyclerView recyclerView;
     private RecyclerView recyclerView2;
@@ -36,6 +44,7 @@ public class Word_main extends AppCompatActivity {
     private FirebaseDatabase database2;
     private DatabaseReference databaseReference;
     private DatabaseReference databaseReference2;
+    private ActivityResultLauncher<Intent> resultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +71,6 @@ public class Word_main extends AppCompatActivity {
             tv.setTextColor(Color.parseColor("#FFFFFF"));
         }
 
-        /* 언어를 선택하는 스피너 부분 */
-        Spinner spinner = findViewById(R.id.spinner);
-        String[] languages = getResources().getStringArray(R.array.languages);
-        ArrayAdapter<String> adapter_spinner = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, languages);
-        adapter_spinner.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter_spinner);
-
         /* 추천 단어장 리사이클러뷰 */
         recyclerView = findViewById(R.id.recyclerview_recommend_list);
         recyclerView.setHasFixedSize(true);
@@ -85,6 +87,7 @@ public class Word_main extends AppCompatActivity {
                 arrayList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){ //반복문으로 데이터 List를 추출
                     RecommendList recommendList = snapshot.getValue(RecommendList.class); // 만들어둔 객체에 데이터를 담는다.
+                    recommendList.setID(snapshot.getKey());
                     arrayList.add(recommendList);
                 }
                 recommendListAdapter.notifyDataSetChanged(); //리스트 저장 및 새로고침
@@ -99,7 +102,39 @@ public class Word_main extends AppCompatActivity {
         });
 
         recommendListAdapter = new RecommendListAdapter(this, arrayList);
-        recyclerView.setAdapter(recommendListAdapter);
+
+        /* 언어를 선택하는 스피너 부분 */
+        Spinner spinner = findViewById(R.id.spinner);
+        String[] languages = getResources().getStringArray(R.array.languages);
+        ArrayAdapter<String> adapter_spinner = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, languages);
+        adapter_spinner.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter_spinner);
+
+        tempList = new ArrayList<>();
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if(spinner.getSelectedItem().equals("전체")){
+                    recyclerView.setAdapter(recommendListAdapter);
+                }
+                else{
+                    tempList.clear();
+                    for(int i = 0; i < arrayList.size(); i++){
+                        RecommendList temp_recommendList = arrayList.get(i);
+                        if(temp_recommendList.getLanguage().equals(spinner.getSelectedItem())){
+                            tempList.add(temp_recommendList);
+                        }
+                    }
+                    temp_recommendListAdapter = new RecommendListAdapter(Word_main.this, tempList);
+                    recyclerView.setAdapter(temp_recommendListAdapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         //리사이클러뷰 아이템 간격 조절
         RecyclerDecoration_Height decoration_height = new RecyclerDecoration_Height(50);
@@ -122,7 +157,8 @@ public class Word_main extends AppCompatActivity {
                 //파이어베이스 데이터베이스의 데이터를 받아오는 곳
                 arrayList2.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){ //반복문으로 데이터 List를 추출
-                    MyWordList myWordList = snapshot.getValue(MyWordList.class); // 만들어둔 객체에 데이터를 담는다.
+                    MyWordList myWordList = snapshot.getValue(MyWordList.class);// 만들어둔 객체에 데이터를 담는다.
+                    myWordList.setId(snapshot.getKey());
                     arrayList2.add(myWordList);
                 }
                 myWordListAdapter.notifyDataSetChanged(); //리스트 저장 및 새로고침
@@ -139,6 +175,7 @@ public class Word_main extends AppCompatActivity {
         myWordListAdapter = new MyWordListAdapter(this, arrayList2) {
         };
         recyclerView2.setAdapter(myWordListAdapter);
+
 
         //리사이클러뷰 아이템 간격 조절
         recyclerView2.addItemDecoration(decoration_height);

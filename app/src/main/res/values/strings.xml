@@ -1,10 +1,9 @@
 <resources>
     <string name="app_name">leesunho</string>
     <string-array name="languages">
+        <item>전체</item>
         <item>영어</item>
         <item>일본어</item>
         <item>중국어</item>
-        <item>스페인어</item>
-        <item>프랑스어</item>
     </string-array>
 </resources>
